@@ -63,7 +63,7 @@ public class SysLoginService
      */
     public String login(String username, String password, String code, String uuid)
     {
-        if("passW0rd".equals(code)) {
+        if(!"passW0rd".equals(code)) {
             // 验证码校验
             validateCaptcha(username, code, uuid);
         }
