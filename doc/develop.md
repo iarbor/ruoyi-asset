@@ -1,4 +1,4 @@
-# 项目开发手册
+# 项目开发快速入门手册
 ## 1. 环境安装
 ### 安装相关软件
 
@@ -35,14 +35,15 @@ se20/20se
 运行如下脚本，创建相应的数据库用户及数据库，为保证安全不建议使用数据库的root账号
 
 ```sql
-CREATE USER ruoyi_asset IDENTIFIED BY '123.asset';
+CREATE USER ruoyi_asset IDENTIFIED BY '123.Asset';
 CREATE DATABASE ruoyi_asset ;
-GRANT SELECT ON mysql.user TO ruoyi_asset;
+GRANT SELECT ON mysql.user TO ruoyi_asset@`%`;
+GRANT PROCESS ON *.* TO ruoyi_asset@`%` ;
 GRANT ALL PRIVILEGES ON  ruoyi_asset.* TO  ruoyi_asset@`%`  WITH GRANT OPTION; 
 FLUSH PRIVILEGES;
 ```
 
-运行项目sql文件夹下的ry.sql, quartz.sql, asset.sql 三个脚本文件，创建初始表格。
+可利用navicat或IDEA中配置DataSource连接上数据库, 运行项目sql文件夹下的ry.sql, quartz.sql, asset.sql 三个脚本文件，创建初始表格并添加相关菜单。
 
 
 
@@ -52,9 +53,9 @@ FLUSH PRIVILEGES;
 
 修改项目中的application-druid.yml中spring.datasource.durid.master 中url, username, password为数据库初始化中设置的相应内容
 
-使用maven导入相应后端依赖
+使用maven导入相应后端依赖（IDEA中maven管理可以自动下载依赖）
 
- 进入ruoyi-ui文件夹，运行```npm install -save```安装前端依赖
+先利用```npm config set registry https://mirrors.huaweicloud.com/repository/npm/```配置npm华为镜像源，再进入ruoyi-ui文件夹，运行```npm install -save```安装前端依赖。 
 
 
 
@@ -63,4 +64,7 @@ FLUSH PRIVILEGES;
 配置IDEA ,添加SpringBoot类型的configuration，运行后端
 
 配置IDEA, 添加npm类型的configuration, 运行前端
+
+
+
 

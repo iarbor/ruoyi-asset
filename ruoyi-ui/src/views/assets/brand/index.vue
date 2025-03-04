@@ -1,18 +1,18 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="类别名称" prop="name">
+      <el-form-item label="品牌名称" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入类别名称"
+          placeholder="请输入品牌名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="代码" prop="code">
+      <el-form-item label="品牌代码" prop="code">
         <el-input
           v-model="queryParams.code"
-          placeholder="请输入代码"
+          placeholder="请输入品牌代码"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -41,7 +41,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['assets:category:add']"
+          v-hasPermi="['assets:brand:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -52,7 +52,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['assets:category:edit']"
+          v-hasPermi="['assets:brand:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -63,7 +63,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['assets:category:remove']"
+          v-hasPermi="['assets:brand:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -73,17 +73,17 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['assets:category:export']"
+          v-hasPermi="['assets:brand:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="categoryList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="brandList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="主键" align="center" prop="id" />
-      <el-table-column label="类别名称" align="center" prop="name" />
-      <el-table-column label="代码" align="center" prop="code" />
+      <el-table-column label="id" align="center" prop="id" />
+      <el-table-column label="品牌名称" align="center" prop="name" />
+      <el-table-column label="品牌代码" align="center" prop="code" />
       <el-table-column label="状态" align="center" prop="status">
         <template slot-scope="scope">
           <dict-tag :options="dict.type.sys_show_hide" :value="scope.row.status"/>
@@ -96,14 +96,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['assets:category:edit']"
+            v-hasPermi="['assets:brand:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['assets:category:remove']"
+            v-hasPermi="['assets:brand:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -117,14 +117,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改资产类别对话框 -->
+    <!-- 添加或修改品牌对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="类别名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入类别名称" />
+        <el-form-item label="品牌名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入品牌名称" />
         </el-form-item>
-        <el-form-item label="代码" prop="code">
-          <el-input v-model="form.code" placeholder="请输入代码" />
+        <el-form-item label="品牌代码" prop="code">
+          <el-input v-model="form.code" placeholder="请输入品牌代码" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="form.status">
@@ -145,10 +145,10 @@
 </template>
 
 <script>
-import { listCategory, getCategory, delCategory, addCategory, updateCategory } from "@/api/assets/category";
+import { listBrand, getBrand, delBrand, addBrand, updateBrand } from "@/api/assets/brand";
 
 export default {
-  name: "Category",
+  name: "Brand",
   dicts: ['sys_show_hide'],
   data() {
     return {
@@ -164,8 +164,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 资产类别表格数据
-      categoryList: [],
+      // 品牌表格数据
+      brandList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -189,11 +189,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询资产类别列表 */
+    /** 查询品牌列表 */
     getList() {
       this.loading = true;
-      listCategory(this.queryParams).then(response => {
-        this.categoryList = response.rows;
+      listBrand(this.queryParams).then(response => {
+        this.brandList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -237,16 +237,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加资产类别";
+      this.title = "添加品牌";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getCategory(id).then(response => {
+      getBrand(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改资产类别";
+        this.title = "修改品牌";
       });
     },
     /** 提交按钮 */
@@ -254,13 +254,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateCategory(this.form).then(response => {
+            updateBrand(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addCategory(this.form).then(response => {
+            addBrand(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -272,8 +272,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除资产类别编号为"' + ids + '"的数据项？').then(function() {
-        return delCategory(ids);
+      this.$modal.confirm('是否确认删除品牌编号为"' + ids + '"的数据项？').then(function() {
+        return delBrand(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -281,9 +281,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('assets/category/export', {
+      this.download('assets/brand/export', {
         ...this.queryParams
-      }, `category_${new Date().getTime()}.xlsx`)
+      }, `brand_${new Date().getTime()}.xlsx`)
     }
   }
 };
