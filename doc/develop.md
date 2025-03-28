@@ -151,11 +151,10 @@ FLUSH PRIVILEGES;
 
 配置 IDEA ,添加 SpringBoot 类型的 configuration ，运行后端
 
-![运行后端1](C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行后端1.jpg)
+<img src="C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行后端1.jpg"  />
 
-![运行后端2](C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行后端2.jpg)
+![](C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行后端2.jpg)
 
 配置 IDEA, 添加 npm 类型的 configuration , 运行前端
 
-![image-20250326152706024](C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行前端.jpg)
-
+![](C:\Users\李欣桐\OneDrive\桌面\GitHubProject\ruoyi-asset\doc\req\images\运行前端.jpg)
