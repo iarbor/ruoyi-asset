@@ -7,7 +7,7 @@ import com.ruoyi.assets.domain.AssetCategory;
  * 资产类别Mapper接口
  * 
  * @author ruoyi
- * @date 2025-03-03
+ * @date 2025-04-20
  */
 public interface AssetCategoryMapper 
 {

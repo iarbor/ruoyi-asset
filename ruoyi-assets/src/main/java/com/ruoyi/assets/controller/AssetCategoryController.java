@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 资产类别Controller
  * 
  * @author ruoyi
- * @date 2025-03-03
+ * @date 2025-04-20
  */
 @RestController
 @RequestMapping("/assets/category")

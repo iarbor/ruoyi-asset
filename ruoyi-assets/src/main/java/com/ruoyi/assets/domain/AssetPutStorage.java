@@ -6,24 +6,24 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 资产类别对象 asset_category
+ * 入库对象 asset_put_storage
  * 
  * @author ruoyi
  * @date 2025-04-20
  */
-public class AssetCategory extends BaseEntity
+public class AssetPutStorage extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** 主键 */
+    /** ID */
     private Long id;
 
-    /** 类别名称 */
-    @Excel(name = "类别名称")
-    private String name;
+    /** 存放地点 */
+    @Excel(name = "存放地点")
+    private String place;
 
-    /** 代码 */
-    @Excel(name = "代码")
+    /** 存放地点代码 */
+    @Excel(name = "存放地点代码")
     private String code;
 
     /** 状态 */
@@ -39,14 +39,14 @@ public class AssetCategory extends BaseEntity
     {
         return id;
     }
-    public void setName(String name) 
+    public void setPlace(String place) 
     {
-        this.name = name;
+        this.place = place;
     }
 
-    public String getName() 
+    public String getPlace() 
     {
-        return name;
+        return place;
     }
     public void setCode(String code) 
     {
@@ -71,7 +71,7 @@ public class AssetCategory extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("name", getName())
+            .append("place", getPlace())
             .append("code", getCode())
             .append("status", getStatus())
             .append("createTime", getCreateTime())

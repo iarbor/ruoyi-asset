@@ -12,7 +12,7 @@ import com.ruoyi.assets.service.IAssetCategoryService;
  * 资产类别Service业务层处理
  * 
  * @author ruoyi
- * @date 2025-03-03
+ * @date 2025-04-20
  */
 @Service
 public class AssetCategoryServiceImpl implements IAssetCategoryService 
