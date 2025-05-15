@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetTransferMapper">
+    
+    <resultMap type="AssetTransfer" id="AssetTransferResult">
+        <result property="id"    column="id"    />
+        <result property="assetsId"    column="assets_id"    />
+        <result property="name"    column="name"    />
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="dept"    column="dept"    />
+        <result property="bizTime"    column="biz_time"    />
+        <result property="bizType"    column="biz_type"    />
+        <result property="descript"    column="descript"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectAssetTransferVo">
+        select id, assets_id, name, user_id, user_name, dept, biz_time, biz_type, descript, create_time, create_by, update_time, update_by from asset_transfer
+    </sql>
+
+    <select id="selectAssetTransferList" parameterType="AssetTransfer" resultMap="AssetTransferResult">
+        <include refid="selectAssetTransferVo"/>
+        <where>  
+            <if test="assetsId != null  and assetsId != ''"> and assets_id = #{assetsId}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="dept != null "> and dept = #{dept}</if>
+            <if test="bizTime != null "> and biz_time = #{bizTime}</if>
+            <if test="bizType != null "> and biz_type = #{bizType}</if>
+            <if test="descript != null  and descript != ''"> and descript = #{descript}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetTransferById" parameterType="Long" resultMap="AssetTransferResult">
+        <include refid="selectAssetTransferVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAssetTransfer" parameterType="AssetTransfer" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_transfer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="assetsId != null">assets_id,</if>
+            <if test="name != null">name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="dept != null">dept,</if>
+            <if test="bizTime != null">biz_time,</if>
+            <if test="bizType != null">biz_type,</if>
+            <if test="descript != null">descript,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="assetsId != null">#{assetsId},</if>
+            <if test="name != null">#{name},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="dept != null">#{dept},</if>
+            <if test="bizTime != null">#{bizTime},</if>
+            <if test="bizType != null">#{bizType},</if>
+            <if test="descript != null">#{descript},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetTransfer" parameterType="AssetTransfer">
+        update asset_transfer
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="assetsId != null">assets_id = #{assetsId},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="dept != null">dept = #{dept},</if>
+            <if test="bizTime != null">biz_time = #{bizTime},</if>
+            <if test="bizType != null">biz_type = #{bizType},</if>
+            <if test="descript != null">descript = #{descript},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetTransferById" parameterType="Long">
+        delete from asset_transfer where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetTransferByIds" parameterType="String">
+        delete from asset_transfer where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

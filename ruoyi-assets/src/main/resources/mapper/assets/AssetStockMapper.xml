@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.assets.mapper.AssetStockMapper">
+    
+    <resultMap type="AssetStock" id="AssetStockResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="name"    column="name"    />
+        <result property="type"    column="type"    />
+        <result property="supplier"    column="supplier"    />
+        <result property="location"    column="location"    />
+        <result property="brand"    column="brand"    />
+        <result property="method"    column="method"    />
+        <result property="entryTime"    column="entry_time"    />
+        <result property="status"    column="status"    />
+        <result property="descript"    column="descript"    />
+        <result property="picture"    column="picture"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectAssetStockVo">
+        select id, code, name, type, supplier, location, brand, method, entry_time, status, descript, picture, create_time, create_by, update_time, update_by from asset_stock
+    </sql>
+
+    <select id="selectAssetStockList" parameterType="AssetStock" resultMap="AssetStockResult">
+        <include refid="selectAssetStockVo"/>
+        <where>  
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="type != null "> and type = #{type}</if>
+            <if test="supplier != null "> and supplier = #{supplier}</if>
+            <if test="location != null "> and location = #{location}</if>
+            <if test="brand != null "> and brand = #{brand}</if>
+            <if test="method != null "> and method = #{method}</if>
+            <if test="entryTime != null "> and entry_time = #{entryTime}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="descript != null  and descript != ''"> and descript = #{descript}</if>
+            <if test="picture != null  and picture != ''"> and picture = #{picture}</if>
+        </where>
+    </select>
+    
+    <select id="selectAssetStockById" parameterType="Long" resultMap="AssetStockResult">
+        <include refid="selectAssetStockVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAssetStock" parameterType="AssetStock" useGeneratedKeys="true" keyProperty="id">
+        insert into asset_stock
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="name != null">name,</if>
+            <if test="type != null">type,</if>
+            <if test="supplier != null">supplier,</if>
+            <if test="location != null">location,</if>
+            <if test="brand != null">brand,</if>
+            <if test="method != null">method,</if>
+            <if test="entryTime != null">entry_time,</if>
+            <if test="status != null">status,</if>
+            <if test="descript != null">descript,</if>
+            <if test="picture != null">picture,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="type != null">#{type},</if>
+            <if test="supplier != null">#{supplier},</if>
+            <if test="location != null">#{location},</if>
+            <if test="brand != null">#{brand},</if>
+            <if test="method != null">#{method},</if>
+            <if test="entryTime != null">#{entryTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="descript != null">#{descript},</if>
+            <if test="picture != null">#{picture},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAssetStock" parameterType="AssetStock">
+        update asset_stock
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="supplier != null">supplier = #{supplier},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="brand != null">brand = #{brand},</if>
+            <if test="method != null">method = #{method},</if>
+            <if test="entryTime != null">entry_time = #{entryTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="descript != null">descript = #{descript},</if>
+            <if test="picture != null">picture = #{picture},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAssetStockById" parameterType="Long">
+        delete from asset_stock where id = #{id}
+    </delete>
+
+    <delete id="deleteAssetStockByIds" parameterType="String">
+        delete from asset_stock where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
