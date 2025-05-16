@@ -318,3 +318,28 @@ create table asset_transfer
     update_by   varchar(20) COMMENT '更新人',
     PRIMARY KEY (id)
 ) COMMENT = '资产流转表';
+
+INSERT INTO sys_menu (menu_id, menu_name, parent_id, order_num, path, component, query, route_name, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark) VALUES (1094, '资产库存', 0, 1, 'stock', NULL, NULL, '', 1, 0, 'M', '0', '0', NULL, 'build', 'admin', '2025-05-14 12:14:29', '', NULL, '');
+
+-- 菜单 SQL
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转', '1094', '1', 'transfer', 'assets/transfer/index', 1, 0, 'C', '0', '0', 'assets:transfer:list', '#', 'admin', sysdate(), '', null, '资产流转菜单');
+
+-- 按钮父菜单ID
+SELECT @parentId := LAST_INSERT_ID();
+
+-- 按钮 SQL
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转查询', @parentId, '1',  '#', '', 1, 0, 'F', '0', '0', 'assets:transfer:query',        '#', 'admin', sysdate(), '', null, '');
+
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转新增', @parentId, '2',  '#', '', 1, 0, 'F', '0', '0', 'assets:transfer:add',          '#', 'admin', sysdate(), '', null, '');
+
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转修改', @parentId, '3',  '#', '', 1, 0, 'F', '0', '0', 'assets:transfer:edit',         '#', 'admin', sysdate(), '', null, '');
+
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转删除', @parentId, '4',  '#', '', 1, 0, 'F', '0', '0', 'assets:transfer:remove',       '#', 'admin', sysdate(), '', null, '');
+
+insert into sys_menu (menu_name, parent_id, order_num, path, component, is_frame, is_cache, menu_type, visible, status, perms, icon, create_by, create_time, update_by, update_time, remark)
+values('资产流转导出', @parentId, '5',  '#', '', 1, 0, 'F', '0', '0', 'assets:transfer:export',       '#', 'admin', sysdate(), '', null, '');
