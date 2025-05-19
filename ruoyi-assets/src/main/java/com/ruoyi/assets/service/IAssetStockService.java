@@ -1,6 +1,8 @@
 package com.ruoyi.assets.service;
 
 import java.util.List;
+
+import cn.hutool.core.lang.tree.Tree;
 import com.ruoyi.assets.domain.AssetStock;
 
 /**
@@ -58,4 +60,6 @@ public interface IAssetStockService
      * @return 结果
      */
     public int deleteAssetStockById(Long id);
+
+    List<Tree<String>> getCategoryAndStockTreeData(AssetStock assetStock);
 }

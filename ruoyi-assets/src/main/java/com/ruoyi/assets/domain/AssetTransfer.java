@@ -22,7 +22,7 @@ public class AssetTransfer extends BaseEntity
 
     /** 资产编码 */
     @Excel(name = "资产编码")
-    private String assetsId;
+    private Long assetsId;
 
     /** 资产名称 */
     @Excel(name = "资产名称")
@@ -62,12 +62,12 @@ public class AssetTransfer extends BaseEntity
     {
         return id;
     }
-    public void setAssetsId(String assetsId) 
+    public void setAssetsId(Long assetsId)
     {
         this.assetsId = assetsId;
     }
 
-    public String getAssetsId() 
+    public Long getAssetsId()
     {
         return assetsId;
     }

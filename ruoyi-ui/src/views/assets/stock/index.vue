@@ -120,7 +120,11 @@
           <span>{{ parseTime(scope.row.entryTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="status" />
+      <el-table-column label="状态" align="center" prop="status" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.assets_stock_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="descript" />
       <el-table-column label="图片" align="center" prop="picture" width="100">
         <template slot-scope="scope">
@@ -249,10 +253,13 @@ import { listLocation } from "@/api/assets/location";
 import { listCategory } from "@/api/assets/category";
 import { listBrand } from "@/api/assets/brand";
 import DictData from "@/utils/dict/DictData";
+import StockAdd from "@/views/assets/stock/add.vue"
+import {formatDate} from "@/utils";
 
 export default {
   name: "Stock",
-
+  dicts: ['assets_stock_status'],
+  components: { StockAdd },
   data() {
     return {
       // 遮罩层
@@ -296,7 +303,9 @@ export default {
         picture: null,
       },
       // 表单参数
-      form: {},
+      form: {
+        entryTime:formatDate(new Date())
+      },
       // 表单校验
       rules: {
       }

@@ -1,6 +1,9 @@
 package com.ruoyi.assets.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.assets.domain.AssetStock;
+import com.ruoyi.assets.mapper.AssetStockMapper;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ public class AssetTransferServiceImpl implements IAssetTransferService
 {
     @Autowired
     private AssetTransferMapper assetTransferMapper;
+    @Autowired
+    private AssetStockMapper assetStockMapper;
 
     /**
      * 查询资产流转
@@ -54,7 +59,21 @@ public class AssetTransferServiceImpl implements IAssetTransferService
     public int insertAssetTransfer(AssetTransfer assetTransfer)
     {
         assetTransfer.setCreateTime(DateUtils.getNowDate());
-        return assetTransferMapper.insertAssetTransfer(assetTransfer);
+        int r =  assetTransferMapper.insertAssetTransfer(assetTransfer);
+        if(assetTransfer.getBizType()==1){
+            AssetStock assetStock = new AssetStock();
+            assetStock.setId(assetTransfer.getAssetsId());
+            assetStock.setStatus(2L);
+            assetStockMapper.updateAssetStock(assetStock);
+        }
+        else if(assetTransfer.getBizType()==2){
+            AssetStock assetStock = new AssetStock();
+            assetStock.setId(assetTransfer.getAssetsId());
+            assetStock.setStatus(1L);
+            assetStockMapper.updateAssetStock(assetStock);
+        }
+        return r;
+
     }
 
     /**

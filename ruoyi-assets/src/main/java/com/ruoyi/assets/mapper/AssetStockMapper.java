@@ -2,6 +2,8 @@ package com.ruoyi.assets.mapper;
 
 import java.util.List;
 import com.ruoyi.assets.domain.AssetStock;
+import com.ruoyi.assets.domain.CategoryStock;
+import com.ruoyi.assets.domain.UserDept;
 
 /**
  * 库存清单Mapper接口
@@ -58,4 +60,6 @@ public interface AssetStockMapper
      * @return 结果
      */
     public int deleteAssetStockByIds(Long[] ids);
+
+    List<CategoryStock> getCategoryAndStockList(AssetStock assetStock);
 }

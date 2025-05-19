@@ -122,7 +122,11 @@
           <span>{{ parseTime(scope.row.bizTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="业务类型(借用或归还)" align="center" prop="bizType" />
+      <el-table-column label="业务类型" align="center" prop="bizType" >
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.assets_biz_type" :value="scope.row.bizType"/>
+        </template>
+      </el-table-column>
       <el-table-column label="备注" align="center" prop="descript" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -143,7 +147,7 @@
         </template>
       </el-table-column>
     </el-table>
-    
+
     <pagination
       v-show="total>0"
       :total="total"
@@ -159,7 +163,14 @@
           <el-input v-model="form.assetsId" placeholder="请输入资产编码" />
         </el-form-item>
         <el-form-item label="资产名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入资产名称" />
+          <el-select v-model="form.name" placeholder="请选择资产名称">
+            <el-option
+              v-for="dict in assetsStock4Borrow"
+              :key="dict.value"
+              :label="dict.label"
+              :value="parseInt(dict.value)"
+            ></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="用户id" prop="userId">
           <el-input v-model="form.userId" placeholder="请输入用户id" />
@@ -191,16 +202,21 @@
 </template>
 
 <script>
+import { listStock, getStock, delStock, addStock, updateStock } from "@/api/assets/stock";
 import { listTransfer, getTransfer, delTransfer, addTransfer, updateTransfer } from "@/api/assets/transfer";
+import DictData from "@/utils/dict/DictData";
 
 export default {
   name: "Transfer",
+  dicts: ['assets_biz_type'],
   data() {
     return {
       // 遮罩层
       loading: true,
       // 选中数组
       ids: [],
+      assetsStock4Borrow:[],
+      assetsStock4Return:[],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -237,8 +253,29 @@ export default {
   },
   created() {
     this.getList();
+    this.getStockList4Borrow();
+    this.getStockList4Return();
   },
   methods: {
+    /** 查询可借出的资产库存列表 */
+    getStockList4Borrow(){
+      listStock({status:1}).then(response => {
+        for(const item of response.rows){
+          this.assetsStock4Borrow.push(new DictData(item.name, item.id.toString(), {"listClass":"default"}));
+        }
+      });
+
+    },
+    /** 查询可归还的资产库存列表 */
+    getStockList4Return(){
+      listStock({status:2}).then(response => {
+        for(const item of response.rows){
+          this.assetsStock4Return.push(new DictData(item.name, item.id.toString(), {"listClass":"default"}));
+        }
+      });
+
+    },
+
     /** 查询资产流转列表 */
     getList() {
       this.loading = true;

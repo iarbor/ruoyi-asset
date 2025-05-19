@@ -49,6 +49,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </select>
 
+    <select id="getCategoryAndStockList" parameterType="AssetStock" resultType="com.ruoyi.assets.domain.CategoryStock">
+        SELECT c.id,
+               c.id categoryId,
+            '0' parentId,
+               1 as isCategory,
+               c.name ,
+               'el-icon-folder' AS icon,
+               TRUE AS disabled,
+               1 AS orderNum
+        FROM asset_category c
+        union ALL
+        SELECT s.id,
+               s.type categoryId,
+               s.type parentId,
+               0 as isCategory,
+               s.name,
+               'el-icon-user-solid' AS icon,
+               FALSE AS disabled,
+               999 AS orderNum
+        FROM asset_stock s
+        <where>
+            <if test="status != null "> and s.status = #{status}</if>
+        </where>
+        ORDER BY orderNum ASC
+    </select>
+
     <insert id="insertAssetStock" parameterType="AssetStock" useGeneratedKeys="true" keyProperty="id">
         insert into asset_stock
         <trim prefix="(" suffix=")" suffixOverrides=",">

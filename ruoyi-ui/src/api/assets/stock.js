@@ -17,6 +17,22 @@ export function getStock(id) {
   })
 }
 
+// 查询未借出库存清单详细
+export function getCategoryAndStockTreeList4Borrow() {
+  return request({
+    url: '/assets/stock/list4Borrow',
+    method: 'get'
+  })
+}
+
+// 查询已经借出清单详细
+export function getCategoryAndStockTreeList4Return() {
+  return request({
+    url: '/assets/stock/list4Return',
+    method: 'get'
+  })
+}
+
 // 新增库存清单
 export function addStock(data) {
   return request({

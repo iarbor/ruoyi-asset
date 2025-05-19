@@ -2,6 +2,8 @@ package com.ruoyi.assets.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import cn.hutool.core.lang.tree.Tree;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -100,5 +102,32 @@ public class AssetStockController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(assetStockService.deleteAssetStockByIds(ids));
+    }
+
+    /**
+     * 查询可领用库存清单列表
+     */
+    @PreAuthorize("@ss.hasPermi('assets:stock:list')")
+    @GetMapping("/list4Borrow")
+    public AjaxResult list4Borrow()
+    {
+        AssetStock assetStock = new AssetStock();
+        assetStock.setStatus(1L);
+        List<Tree<String>> list = assetStockService.getCategoryAndStockTreeData(assetStock);
+        AjaxResult r = success(list);
+        return r;
+    }
+
+    /**
+     * 查询可归还库存清单列表
+     */
+    @PreAuthorize("@ss.hasPermi('assets:stock:list')")
+    @GetMapping("/list4Return")
+    public AjaxResult list4Return()
+    {
+        AssetStock assetStock = new AssetStock();
+        assetStock.setStatus(2L);
+        List<Tree<String>> list = assetStockService.getCategoryAndStockTreeData(assetStock);
+        return success(list);
     }
 }
